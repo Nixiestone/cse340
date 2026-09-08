@@ -3,12 +3,10 @@
 <main>
     <h1><%= title %></h1>
 
-    <p>Explore service opportunities by category:</p>
     <ul>
-        <li>Environmental</li>
-        <li>Educational</li>
-        <li>Community Service</li>
-        <li>Health and Wellness</li>
+        <% categories.forEach(cat => { %>
+            <li><%= cat.category_name %></li>
+        <% }) %>
     </ul>
 </main>
 

@@ -1,6 +1,9 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { getAllOrganizations } from './src/models/organization-model.js';
+import { getAllProjects } from './src/models/project-model.js';
+import { getAllCategories } from './src/models/category-model.js';
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
@@ -12,10 +15,7 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Set EJS as the templating engine
 app.set('view engine', 'ejs');
-
-// Tell Express where to find your templates
 app.set('views', path.join(__dirname, 'src/views'));
 
 /**
@@ -28,17 +28,20 @@ app.get('/', async (req, res) => {
 
 app.get('/organizations', async (req, res) => {
     const title = 'Our Partner Organizations';
-    res.render('organizations', { title });
+    const organizations = await getAllOrganizations();
+    res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', async (req, res) => {
     const title = 'Service Projects';
-    res.render('projects', { title });
+    const projects = await getAllProjects();
+    res.render('projects', { title, projects });
 });
 
 app.get('/categories', async (req, res) => {
     const title = 'Service Project Categories';
-    res.render('categories', { title });
+    const categories = await getAllCategories();
+    res.render('categories', { title, categories });
 });
 
 app.listen(PORT, () => {
