@@ -6,8 +6,10 @@
     <ul>
         <% projects.forEach(project => { %>
             <li>
-                <strong><%= project.project_name %></strong> (<%= project.category_name %>) — hosted by <%= project.organization_name %>
+                <strong><%= project.project_name %></strong> — <%= project.category_names %>
                 <p><%= project.description %></p>
+                <p>Location: <%= project.location %> | Date: <%= project.project_date.toLocaleDateString() %></p>
+                <p>Hosted by: <%= project.organization_name %></p>
             </li>
         <% }) %>
     </ul>
