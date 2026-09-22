@@ -11,4 +11,15 @@ const getAllOrganizations = async () => {
     }
 };
 
-export { getAllOrganizations };
+const getOrganizationById = async (id) => {
+    try {
+        const query = 'SELECT * FROM organization WHERE organization_id = $1';
+        const result = await pool.query(query, [id]);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error fetching organization by id:', error);
+        throw error;
+    }
+};
+
+export { getAllOrganizations, getOrganizationById };

@@ -1,9 +1,9 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { getAllOrganizations } from './src/models/organization-model.js';
-import { getAllProjects } from './src/models/project-model.js';
-import { getAllCategories } from './src/models/category-model.js';
+import organizationRoutes from './src/routes/organization-routes.js';
+import projectRoutes from './src/routes/project-routes.js';
+import categoryRoutes from './src/routes/category-routes.js';
 
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const PORT = process.env.PORT || 3000;
@@ -18,33 +18,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-/**
- * Routes
- */
 app.get('/', async (req, res) => {
-    const title = 'Home';
-    res.render('home', { title });
+    res.render('home', { title: 'Home' });
 });
 
-app.get('/organizations', async (req, res) => {
-    const title = 'Our Partner Organizations';
-    const organizations = await getAllOrganizations();
-    res.render('organizations', { title, organizations });
-});
-
-app.get('/projects', async (req, res) => {
-    const title = 'Service Projects';
-    const projects = await getAllProjects();
-    res.render('projects', { title, projects });
-});
-
-app.get('/categories', async (req, res) => {
-    const title = 'Service Project Categories';
-    const categories = await getAllCategories();
-    res.render('categories', { title, categories });
-});
+app.use('/organizations', organizationRoutes);
+app.use('/projects', projectRoutes);
+app.use('/categories', categoryRoutes);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Environment: ${NODE_ENV}`);
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`Environment: ${NODE_ENV}`);
 });
