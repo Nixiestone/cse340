@@ -68,4 +68,23 @@ const getProjectsByCategoryId = async (categoryId) => {
     }
 };
 
-export { getAllProjects, getProjectById, getProjectsByCategoryId };
+const getProjectsByOrganizationId = async (organizationId) => {
+    try {
+        const query = `
+            SELECT
+                project.project_id,
+                project.project_name,
+                project.description
+            FROM project
+            WHERE project.organization_id = $1
+            ORDER BY project.project_name
+        `;
+        const result = await pool.query(query, [organizationId]);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching projects by organization id:', error);
+        throw error;
+    }
+};
+
+export { getAllProjects, getProjectById, getProjectsByCategoryId, getProjectsByOrganizationId };

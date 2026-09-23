@@ -1,4 +1,5 @@
 import { getAllOrganizations, getOrganizationById } from '../models/organization-model.js';
+import { getProjectsByOrganizationId } from '../models/project-model.js';
 
 const listOrganizations = async (req, res) => {
     const title = 'Our Partner Organizations';
@@ -14,7 +15,8 @@ const showOrganization = async (req, res) => {
         return res.status(404).render('404', { title: 'Not Found' });
     }
 
-    res.render('organization-detail', { title: organization.organization_name, organization });
+    const projects = await getProjectsByOrganizationId(id);
+    res.render('organization-detail', { title: organization.organization_name, organization, projects });
 };
 
 export { listOrganizations, showOrganization };
