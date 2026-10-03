@@ -1,10 +1,12 @@
 :root {
     --primary: #1a5276;
-    --primary-light: #2e86c1;
+    --primary-light: #2471a3;
     --accent: #f39c12;
+    --accent-light: #ffc857;
     --bg: #f4f6f7;
     --text: #2c3e50;
     --white: #ffffff;
+    --border: #7f8c8d;
 }
 
 * {
@@ -46,7 +48,8 @@ body {
             transition: color 0.2s ease;
 
             &:hover {
-                color: var(--accent);
+                color: var(--accent-light);
+                text-decoration: underline;
             }
         }
     }
@@ -85,6 +88,16 @@ li img {
     vertical-align: middle;
     margin-right: 0.5rem;
     border-radius: 4px;
+}
+
+/* Visible keyboard focus for links */
+a:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+nav a:focus-visible {
+    outline-color: var(--accent-light);
 }
 
 /* Flash messages (success, error, warning, info) */
@@ -141,7 +154,7 @@ li img {
     font: inherit;
     color: var(--text);
     background-color: var(--white);
-    border: 1px solid #aab7b8;
+    border: 1px solid var(--border);
     border-radius: 6px;
 }
 
@@ -155,6 +168,38 @@ li img {
 .form-group select:focus {
     outline: 3px solid var(--primary-light);
     outline-offset: 1px;
+}
+
+/* Checkbox list (assign categories) */
+.checkbox-list {
+    margin: 0 0 1.2rem;
+    padding: 1rem 1.2rem;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.checkbox-list legend {
+    padding: 0 0.4rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.3rem 0;
+}
+
+.checkbox-item input {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.checkbox-item input:focus-visible {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
 }
 
 button[type="submit"] {
@@ -171,6 +216,12 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: var(--primary-light);
+}
+
+button[type="submit"]:focus-visible {
+    outline: 3px solid var(--accent-light);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 5px var(--primary);
 }
 
 pre {
@@ -198,5 +249,12 @@ footer {
 
     main {
         padding: 1rem;
+    }
+}
+
+/* Respect users who ask their system to reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
     }
 }
