@@ -7,6 +7,8 @@
     <p>Location: <%= projectDetails.location %> | Date: <%= projectDetails.project_date.toLocaleDateString() %></p>
     <p>Hosted by: <a href="/organization/<%= projectDetails.organization_id %>"><%= projectDetails.organization_name %></a></p>
 
+    <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
+
     <h2>Categories</h2>
     <% if (categories.length === 0) { %>
         <p>This project has no categories yet.</p>

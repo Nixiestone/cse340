@@ -7,6 +7,8 @@
     <p><strong>Contact:</strong> <%= organizationDetails.contact_email %></p>
     <p><%= organizationDetails.description %></p>
 
+    <p><a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization</a></p>
+
     <h2>Projects</h2>
     <ul>
         <% projects.forEach(project => { %>
