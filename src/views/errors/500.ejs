@@ -1,0 +1,16 @@
+<%- include('../partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+    <p>Something went wrong on our end. Please try again in a moment.</p>
+
+    <% if (stack) { %>
+        <h2>Details (shown in development only)</h2>
+        <p><%= error %></p>
+        <pre><%= stack %></pre>
+    <% } %>
+
+    <p><a href="/">← Back to home</a></p>
+</main>
+
+<%- include('../partials/footer') %>

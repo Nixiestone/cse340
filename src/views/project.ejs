@@ -1,0 +1,24 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <p><%= projectDetails.description %></p>
+    <p>Location: <%= projectDetails.location %> | Date: <%= projectDetails.project_date.toLocaleDateString() %></p>
+    <p>Hosted by: <a href="/organization/<%= projectDetails.organization_id %>"><%= projectDetails.organization_name %></a></p>
+
+    <h2>Categories</h2>
+    <% if (categories.length === 0) { %>
+        <p>This project has no categories yet.</p>
+    <% } else { %>
+        <ul>
+            <% categories.forEach(cat => { %>
+                <li><a href="/category/<%= cat.category_id %>"><%= cat.category_name %></a></li>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <p><a href="/projects">← Back to all projects</a></p>
+</main>
+
+<%- include('partials/footer') %>
