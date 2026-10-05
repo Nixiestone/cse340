@@ -252,6 +252,42 @@ footer {
     }
 }
 
+/* Data tables (admin users page) */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.data-table caption {
+    padding: 0.5rem 0;
+    text-align: left;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.7rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid #d5d8dc;
+}
+
+.data-table th {
+    color: var(--white);
+    background-color: var(--primary);
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: var(--bg);
+}
+
 /* Respect users who ask their system to reduce motion */
 @media (prefers-reduced-motion: reduce) {
     * {

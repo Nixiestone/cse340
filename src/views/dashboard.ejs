@@ -1,0 +1,18 @@
+<%- include('partials/header') %>
+
+<main>
+    <h1><%= title %></h1>
+
+    <h2>Welcome back, <%= name %>!</h2>
+    <p><strong>Name:</strong> <%= name %></p>
+    <p><strong>Username:</strong> <%= email %></p>
+    <p><strong>Role:</strong> <%= user.role_name %></p>
+
+    <%# Admin-only link. Hiding it is only a convenience: the /users route itself is protected on the server. %>
+    <% if (user && user.role_name === 'admin') { %>
+        <h2>Admin Tools</h2>
+        <p><a href="/users">View Registered Users</a></p>
+    <% } %>
+</main>
+
+<%- include('partials/footer') %>

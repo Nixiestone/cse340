@@ -1,3 +1,7 @@
+-- WARNING: running this whole file wipes ALL data, including registered users.
+-- After re-running it, re-register admin@example.com and promote it (see the UPDATE at the bottom).
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS project_category;
 DROP TABLE IF EXISTS project;
 DROP TABLE IF EXISTS organization;
@@ -32,6 +36,26 @@ CREATE TABLE project_category (
     category_id INT NOT NULL REFERENCES category(category_id),
     PRIMARY KEY (project_id, category_id)
 );
+
+-- Role-based access control (W05)
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(50) UNIQUE NOT NULL,
+    role_description TEXT
+);
+
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role_id INTEGER REFERENCES roles(role_id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO roles (role_name, role_description) VALUES
+    ('user', 'Standard user with basic access'),
+    ('admin', 'Administrator with full system access');
 
 INSERT INTO category (category_name) VALUES
 ('Environmental'),
@@ -85,3 +109,7 @@ INSERT INTO project_category (project_id, category_id) VALUES
 (13, 3), (13, 4),   -- Senior Companionship Visits -> Community Service, Health and Wellness
 (14, 2),            -- Youth Mentorship Program -> Educational
 (15, 4);            -- Blood Drive -> Health and Wellness
+
+-- After registering admin@example.com through the website (so the password is hashed),
+-- promote it to admin by running this statement:
+-- UPDATE users SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') WHERE email = 'admin@example.com';

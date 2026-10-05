@@ -7,7 +7,9 @@
     <p>Location: <%= projectDetails.location %> | Date: <%= projectDetails.project_date.toLocaleDateString() %></p>
     <p>Hosted by: <a href="/organization/<%= projectDetails.organization_id %>"><%= projectDetails.organization_name %></a></p>
 
-    <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
+    <% if (user && user.role_name === 'admin') { %>
+        <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
+    <% } %>
 
     <h2>Categories</h2>
     <% if (categories.length === 0) { %>
@@ -20,7 +22,9 @@
         </ul>
     <% } %>
 
-    <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
+    <% if (user && user.role_name === 'admin') { %>
+        <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
+    <% } %>
 
     <p><a href="/projects">← Back to all projects</a></p>
 </main>
