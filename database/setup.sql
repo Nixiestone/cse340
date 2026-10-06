@@ -1,5 +1,8 @@
 -- WARNING: running this whole file wipes ALL data, including registered users.
 -- After re-running it, re-register admin@example.com and promote it (see the UPDATE at the bottom).
+-- volunteer must be dropped FIRST: it points at both users and project,
+-- and Postgres will not drop a table that another table still references.
+DROP TABLE IF EXISTS volunteer;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS project_category;
@@ -51,6 +54,17 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     role_id INTEGER REFERENCES roles(role_id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Junction table (W06): this is what makes users <-> projects many-to-many.
+-- A user can volunteer for many projects, and a project can have many volunteers.
+-- The composite primary key also stops the same user volunteering twice for one project.
+-- ON DELETE CASCADE cleans up signups automatically if a user or project is ever deleted.
+CREATE TABLE volunteer (
+    user_id INT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    project_id INT NOT NULL REFERENCES project(project_id) ON DELETE CASCADE,
+    signed_up_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, project_id)
 );
 
 INSERT INTO roles (role_name, role_description) VALUES

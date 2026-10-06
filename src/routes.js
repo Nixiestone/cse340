@@ -44,6 +44,7 @@ import {
     showDashboard,
     showUsersPage
 } from './controllers/users.js';
+import { processVolunteerSignup, processVolunteerRemoval } from './controllers/volunteers.js';
 import { testErrorPage } from './controllers/errors.js';
 
 const router = express.Router();
@@ -77,6 +78,10 @@ router.post('/edit-category/:id', requireRole('admin'), categoryValidation, proc
 // Routes to handle the assign categories to project form
 router.get('/assign-categories/:projectId', requireRole('admin'), showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', requireRole('admin'), processAssignCategoriesForm);
+
+// Volunteer routes (POST because they change data; requireLogin protects both)
+router.post('/volunteer/:id', requireLogin, processVolunteerSignup);
+router.post('/remove-volunteer/:id', requireLogin, processVolunteerRemoval);
 
 // User registration routes
 router.get('/register', showUserRegistrationForm);

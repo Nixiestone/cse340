@@ -6,6 +6,7 @@ import {
     updateProject
 } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
+import { isUserVolunteer } from '../models/volunteers.js';
 import { getAllOrganizations, getOrganizationDetails } from '../models/organizations.js';
 
 // Validation and sanitization rules for the project form (used by create AND edit)
@@ -65,8 +66,16 @@ const showProjectDetailsPage = async (req, res, next) => {
     }
 
     const categories = await getCategoriesByProjectId(projectId);
+
+    // Only logged-in users can volunteer, so only look the answer up for them
+    const user = req.session.user;
+    let isVolunteer = false;
+    if (user) {
+        isVolunteer = await isUserVolunteer(user.user_id, projectId);
+    }
+
     const title = projectDetails.project_name;
-    res.render('project', { title, projectDetails, categories });
+    res.render('project', { title, projectDetails, categories, isVolunteer });
 };
 
 const showNewProjectForm = async (req, res) => {

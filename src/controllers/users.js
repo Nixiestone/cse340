@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { body, validationResult } from 'express-validator';
 import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+import { getVolunteerProjectsByUserId } from '../models/volunteers.js';
 
 // How many times bcrypt scrambles the password. 10 is the standard balance of security and speed.
 const SALT_ROUNDS = 10;
@@ -169,12 +170,17 @@ const requireRole = (role) => {
     };
 };
 
-const showDashboard = (req, res) => {
+const showDashboard = async (req, res) => {
     const user = req.session.user;
+
+    // Every project this user has signed up to volunteer for
+    const volunteerProjects = await getVolunteerProjectsByUserId(user.user_id);
+
     res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        volunteerProjects
     });
 };
 

@@ -8,6 +8,42 @@
     <p><strong>Username:</strong> <%= email %></p>
     <p><strong>Role:</strong> <%= user.role_name %></p>
 
+    <h2>My Volunteer Projects</h2>
+    <% if (volunteerProjects.length === 0) { %>
+        <p>You have not signed up to volunteer for any projects yet. <a href="/projects">Browse service projects</a> to get started.</p>
+    <% } else { %>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <caption>Projects you are volunteering for (<%= volunteerProjects.length %>)</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Project</th>
+                        <th scope="col">Organization</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% volunteerProjects.forEach(project => { %>
+                        <tr>
+                            <td><a href="/project/<%= project.project_id %>"><%= project.project_name %></a></td>
+                            <td><%= project.organization_name %></td>
+                            <td><%= project.location %></td>
+                            <td><%= project.project_date.toLocaleDateString() %></td>
+                            <td>
+                                <form action="/remove-volunteer/<%= project.project_id %>" method="POST" class="inline-form">
+                                    <input type="hidden" name="returnTo" value="dashboard">
+                                    <button type="submit" class="btn-secondary">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+
     <%# Admin-only link. Hiding it is only a convenience: the /users route itself is protected on the server. %>
     <% if (user && user.role_name === 'admin') { %>
         <h2>Admin Tools</h2>

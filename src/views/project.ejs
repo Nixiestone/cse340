@@ -11,6 +11,25 @@
         <p><a href="/edit-project/<%= projectDetails.project_id %>">Edit Project</a></p>
     <% } %>
 
+    <%# Volunteer section: logged-out visitors see nothing here. The routes are also protected on the server. %>
+    <% if (isLoggedIn) { %>
+        <section class="volunteer-box" aria-labelledby="volunteer-heading">
+            <h2 id="volunteer-heading">Volunteer</h2>
+            <% if (isVolunteer) { %>
+                <p class="volunteer-status">You are volunteering for this project.</p>
+                <form action="/remove-volunteer/<%= projectDetails.project_id %>" method="POST" class="inline-form">
+                    <input type="hidden" name="returnTo" value="project">
+                    <button type="submit" class="btn-secondary">Remove me as a volunteer</button>
+                </form>
+            <% } else { %>
+                <p>Want to help out? Sign up to volunteer for this project.</p>
+                <form action="/volunteer/<%= projectDetails.project_id %>" method="POST" class="inline-form">
+                    <button type="submit">Volunteer for this project</button>
+                </form>
+            <% } %>
+        </section>
+    <% } %>
+
     <h2>Categories</h2>
     <% if (categories.length === 0) { %>
         <p>This project has no categories yet.</p>
